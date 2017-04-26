@@ -4,8 +4,9 @@ import Axios from 'axios';
 import SearchResult from './SearchResult';
 import Jkeywords from './Jkeywords';
 import MainTitle from './MainTitle';
-import diamond from '../../public/diamond.png'
+import diamond from '../../public/diamond.png';
 import Jtype from './Jtype';
+import Jstyle from './Jstyle';
 
 class App extends Component {
   constructor(){
@@ -100,16 +101,20 @@ class App extends Component {
     keyz.classList.toggle('showjk');
   }
 
-  conCa(e) {
-    // const newval = e.target.value;
-    // const curval = this.state.searchval;
-
-    // const conval = curval.concat(newval)
-
-    // this.setState({
-    //   searchval: conval
-    // })
-    console.log(e)
+  runThis(item) {
+    const newitem= item.target.id;
+    const oldval = this.state.searchval;
+    if(!oldval) {
+    const newarr = oldval.concat(newitem);
+    this.setState({
+      searchval: newarr
+    })
+    } else {
+    const newarr2 = oldval.concat(','+newitem);
+    this.setState({
+      searchval: newarr2
+    })
+  }
   }
 
 
@@ -125,10 +130,12 @@ class App extends Component {
         <button type="submit"> Search </button>
         </form>
         </div>
+        <div className="options">
+        <Jtype runThis={this.runThis.bind(this)}/>
 
-        <Jtype conCa={this.conCa()}/>
-
-        <MainTitle />
+        <Jstyle runThis={this.runThis.bind(this)}/>
+        </div>
+        <MainTitle  />
 
         <div className="allresults">
         <h1>Now Available at <a href="https://www.etsy.com" target="_blank">Etsy</a></h1>
