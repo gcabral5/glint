@@ -8,7 +8,7 @@ const MainTitle = () => {
             <p className="title">Glint</p>
           </div>
         </div>
-        <h2> find your next bead, bling or bauble on Etsy </h2>
+        <h2 className="tagline"> find your next bead, bling or bauble on Etsy </h2>
       </div>
     )
 }
