@@ -5,10 +5,10 @@ class SearchRes extends Component {
     return this.props.list.map((item, index) => {
           return (
           <div className="eachitem" key={index} >
-          <a href={item.durl}><img src={item.mainImage} alt="" className="itemimg"/></a>
+          <a href={item.durl} target="_blank"><img src={item.mainImage} alt="" className="itemimg"/></a>
           <h4>{item.title}</h4>
-          <p>Price: ${item.price}</p>
-          <p>country: {item.desc}</p>
+          <p>${item.price}</p>
+          <p>{item.desc.substring(0, 200)}<a href={item.durl} target="_blank"> Read More...</a></p>
           <hr/>
         </div>
         )
@@ -17,7 +17,7 @@ class SearchRes extends Component {
 
   render() {
     return (
-    <div>
+    <div className="resultItems">
       <ul>
       {this.renderList()}
       </ul>

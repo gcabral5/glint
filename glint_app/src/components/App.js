@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import '../App.css';
 import Axios from 'axios';
 import SearchResult from './SearchResult';
+import Jkeywords from './Jkeywords';
+import MainTitle from './MainTitle';
+import diamond from '../../public/diamond.png'
+import Jtype from './Jtype';
 
 class App extends Component {
   constructor(){
@@ -10,9 +14,9 @@ class App extends Component {
       searchval: '',
       searchres: [{
             mainImage: "http://pre01.deviantart.net/168c/th/pre/i/2015/300/e/7/derp_face_by_cherryblossomcake-d9ekfoc.png",
-            desc: "sample text",
-            price: "30.00",
-            title: "sample 1",
+            desc: "-",
+            price: "-",
+            title: "-",
             durl: "http://www.urbandictionary.com/define.php?term=derp"
       }]
     }
@@ -40,9 +44,13 @@ class App extends Component {
 
   for(var i = 0; i < pdata.length; i++) {
     let mainImage = pdata[i].MainImage.url_fullxfull;
-    let desc = pdata[i].description;
+    let descd = pdata[i].description
+    let descr = descd.replace(/&quot;/g,"\"");
+    let desc = descr.replace(/&#39;/g,"'");
     let price = pdata[i].price;
-    let title = pdata[i].title;
+    let titled = pdata[i].title;
+    let titler = titled.replace(/&quot;/g,"\"");
+    let title = titler.replace(/&#39;/g,"'");;
     let durl = pdata[i].url;
 
     let Item = {
@@ -56,11 +64,7 @@ class App extends Component {
     nArr.push(Item);
    }
 
-
-
-
   console.log("after loop", pdata);
-
 
   this.setState({
     searchres: nArr
@@ -86,17 +90,58 @@ class App extends Component {
     })
   }
 
+  hideRes(){
+    const res = document.querySelector('.resultItems');
+    res.classList.toggle('showri');
+  }
+
+  hideKey(){
+    const keyz = document.querySelector('.jkeywords');
+    keyz.classList.toggle('showjk');
+  }
+
+  conCa(e) {
+    // const newval = e.target.value;
+    // const curval = this.state.searchval;
+
+    // const conval = curval.concat(newval)
+
+    // this.setState({
+    //   searchval: conval
+    // })
+    console.log(e)
+  }
+
+
   render() {
 
     return (
       <div className="App">
+      <div className="main">
+        <div className="searchform">
+        <h4>Enter your own keywords (by comma)</h4>
         <form onSubmit={(e)=>{this.getList(e)}}>
         <input type="text" value={this.state.searchval} onChange={(e)=>{this.handleChange(e)}}/>
         <button type="submit"> Search </button>
         </form>
+        </div>
+
+        <Jtype conCa={this.conCa()}/>
+
+        <MainTitle />
+
         <div className="allresults">
+        <h1>Now Available at <a href="https://www.etsy.com" target="_blank">Etsy</a></h1>
+        <h4 onClick={()=>{this.hideRes()}}>SHOW/HIDE</h4>
         <SearchResult list={this.state.searchres} />
         </div>
+
+        </div>
+        <div className="keydiv">
+        <img src={diamond} className="diamond" alt="" onClick={()=>{this.hideKey()}}/>
+        <Jkeywords keys={this.state.searchval}/>
+        </div>
+
       </div>
     );
   }
